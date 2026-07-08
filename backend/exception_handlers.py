@@ -84,12 +84,12 @@ async def request_validation_error_handler(
         "Handled request validation error.",
         extra={
             "path": request.url.path,
-            "status_code": status.HTTP_422_UNPROCESSABLE_ENTITY,
+            "status_code": status.HTTP_422_UNPROCESSABLE_CONTENT,
         },
     )
     return _error_response(
         request=request,
-        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
         error_type="RequestValidationError",
         message="Request validation failed.",
     )

@@ -64,7 +64,7 @@ packages = [
 
 [tool.pytest.ini_options]
 minversion = "8.0"
-addopts = "-ra --strict-config --strict-markers"
+addopts = "-ra --strict-config --strict-markers -p no:cacheprovider"
 testpaths = ["tests"]
 pythonpath = ["."]
 
