@@ -9,6 +9,17 @@ from config.constants import APP_LOGGER_NAME, DEFAULT_LOG_LEVEL, LogLevel
 from config.exceptions import ConfigurationError
 
 _CONSOLE_HANDLER_MARKER = "_karuna_ai_os_console_handler"
+_STANDARD_LOG_RECORD_ATTRIBUTES = frozenset(
+    logging.LogRecord(
+        name="",
+        level=0,
+        pathname="",
+        lineno=0,
+        msg="",
+        args=(),
+        exc_info=None,
+    ).__dict__
+)
 
 
 class StructuredJsonFormatter(logging.Formatter):
@@ -30,6 +41,14 @@ class StructuredJsonFormatter(logging.Formatter):
 
         if record.stack_info is not None:
             payload["stack"] = self.formatStack(record.stack_info)
+
+        context = {
+            key: value
+            for key, value in record.__dict__.items()
+            if key not in _STANDARD_LOG_RECORD_ATTRIBUTES and not key.startswith("_")
+        }
+        if context:
+            payload["context"] = context
 
         return json.dumps(payload, default=str, ensure_ascii=False)
 
