@@ -34,6 +34,37 @@ Generate production-quality code.
 
 ---
 
+
+# Prompt Contract
+
+Every implementation prompt is assumed to require the following workflow unless explicitly overridden.
+
+Before writing any code:
+
+1. Read:
+   - docs/ENGINEERING_STANDARD.md
+   - docs/IMPLEMENTATION_RULES.md
+   - docs/ARCHITECTURE.md
+
+2. Inspect the existing repository.
+
+3. Understand the current implementation.
+
+4. Reuse existing modules whenever possible.
+
+5. Preserve the architecture.
+
+6. Implement ONLY the requested phase.
+
+7. Do not implement future phases.
+
+8. Follow the default verification suite.
+
+9. Commit and push after successful verification.
+
+10. Stop immediately after completing the requested phase.
+---
+
 # Existing Repository
 
 Before writing any code:
@@ -232,6 +263,58 @@ Ensure package imports work.
 
 ---
 
+# Default Verification Suite
+
+Unless explicitly overridden, every implementation phase must execute the following verification steps.
+
+## Static Analysis
+
+- Ruff
+- MyPy
+
+## Compilation
+
+- python -m compileall
+
+## Import Validation
+
+- Verify package imports.
+- Verify no circular imports.
+
+## Smoke Tests
+
+Run manual smoke tests demonstrating:
+
+- Primary functionality
+- Validation
+- Error handling
+
+## Quality Checks
+
+Ensure:
+
+- No unused imports
+- No dead code
+- No TODO comments
+- No placeholder implementations unless explicitly requested
+- Production-quality code
+---
+
+# Prompt Optimization
+
+Implementation prompts should contain only phase-specific objectives.
+
+Do not repeat project-wide engineering rules already defined in:
+
+- ENGINEERING_STANDARD.md
+- IMPLEMENTATION_RULES.md
+- ARCHITECTURE.md
+
+These documents are considered the permanent source of truth.
+
+Future prompts should reference these documents instead of duplicating their contents.
+---
+
 # Output Requirements
 
 Do not paste generated code unless requested.
@@ -284,26 +367,48 @@ Keep responses concise while maintaining engineering quality.
 
 # Git Workflow
 
-Each completed phase should follow:
+Unless explicitly instructed otherwise, every completed phase must:
 
-1. Review generated code.
-2. Run verification.
-3. Run manual smoke tests.
-4. git status
-5. git add .
-6. git commit
-7. git push
+1. Stage all generated changes.
 
-Each phase should have its own commit.
-
-Commit messages should describe the phase.
+2. Commit using a descriptive phase-specific commit message.
 
 Example:
 
-Phase 5 - Agent framework
+Phase 6 - LangGraph Orchestration
+
+3. Push to the default branch.
+
+4. Include the commit hash in the final summary.
+
+If any files remain intentionally uncommitted, explicitly explain why.
+
+The repository should remain in a clean state after every completed phase.
 
 ---
 
+# Context Management
+
+To maximize implementation quality and reduce context usage:
+
+- Avoid regenerating existing code.
+- Read existing modules before modifying them.
+- Prefer modifying existing implementations over creating new ones.
+- Avoid repeating instructions already defined in project documentation.
+
+If the context window approaches approximately 85% utilization:
+
+1. Complete the current implementation phase.
+2. Commit and push all verified changes.
+3. Start a fresh Codex conversation.
+4. Reload:
+   - docs/ENGINEERING_STANDARD.md
+   - docs/IMPLEMENTATION_RULES.md
+   - docs/ARCHITECTURE.md
+5. Continue with the next phase.
+
+Do not begin a new implementation phase in an almost full context window.
+---
 # Completion Criteria
 
 A phase is complete only when:
