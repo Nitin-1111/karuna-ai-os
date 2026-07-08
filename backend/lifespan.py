@@ -11,6 +11,7 @@ from config.logger import configure_logging, get_logger
 from config.settings import get_settings
 from memory.repository import create_document_repository
 from workflows.builder import WorkflowBuilder
+from workflows.graph import create_sequential_workflow
 
 
 @asynccontextmanager
@@ -35,11 +36,13 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     agent_factory = AgentFactory()
     workflow_builder = WorkflowBuilder(agent_factory=agent_factory)
     workflow_builder.build().compile()
+    sequential_workflow = create_sequential_workflow(agent_factory=agent_factory)
 
     app.state.settings = settings
     app.state.logger = logger
     app.state.document_repository = create_document_repository(settings=settings)
     app.state.workflow_builder = workflow_builder
+    app.state.sequential_workflow = sequential_workflow
     app.state.agent_factory = agent_factory
 
     logger.info("Application startup completed.")

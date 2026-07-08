@@ -52,6 +52,8 @@ dev = [
 packages = [
     "agents",
     "backend",
+    "backend.api",
+    "backend.api.v1",
     "config",
     "database",
     "llm",

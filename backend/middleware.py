@@ -72,7 +72,7 @@ def register_middleware(app: FastAPI) -> None:
         CORSMiddleware,
         allow_origins=[],
         allow_credentials=False,
-        allow_methods=["GET"],
+        allow_methods=["DELETE", "GET", "OPTIONS", "POST"],
         allow_headers=["*"],
     )
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])

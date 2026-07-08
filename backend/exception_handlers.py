@@ -126,6 +126,8 @@ def _status_code_for_application_error(exc: ApplicationError) -> int:
 
     if isinstance(exc, (ValidationError, ConfigurationError)):
         return status.HTTP_400_BAD_REQUEST
+    if isinstance(exc, StorageError) and "not found" in exc.message.lower():
+        return status.HTTP_404_NOT_FOUND
     if isinstance(exc, (ProviderError, StorageError)):
         return status.HTTP_503_SERVICE_UNAVAILABLE
     return status.HTTP_500_INTERNAL_SERVER_ERROR

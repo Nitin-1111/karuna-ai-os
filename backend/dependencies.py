@@ -6,12 +6,14 @@ from typing import cast
 
 from fastapi import Request
 
+from agents.factory import AgentFactory
 from config.logger import get_logger
 from config.settings import Settings
 from llm.base import BaseLlmProvider
 from llm.factory import create_llm_provider
 from memory.repository import LocalDocumentRepository, create_document_repository
 from workflows.builder import WorkflowBuilder
+from workflows.graph import SequentialAgentWorkflow
 
 
 def get_settings_dependency(request: Request) -> Settings:
@@ -43,10 +45,22 @@ def get_document_repository(request: Request) -> LocalDocumentRepository:
     return cast(LocalDocumentRepository, request.app.state.document_repository)
 
 
+def get_agent_factory(request: Request) -> AgentFactory:
+    """Return the configured agent factory."""
+
+    return cast(AgentFactory, request.app.state.agent_factory)
+
+
 def get_workflow_builder(request: Request) -> WorkflowBuilder:
     """Return the configured workflow builder."""
 
     return cast(WorkflowBuilder, request.app.state.workflow_builder)
+
+
+def get_sequential_workflow(request: Request) -> SequentialAgentWorkflow:
+    """Return the configured sequential workflow."""
+
+    return cast(SequentialAgentWorkflow, request.app.state.sequential_workflow)
 
 
 def create_document_repository_dependency(
