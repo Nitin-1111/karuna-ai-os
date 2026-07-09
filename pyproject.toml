@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "karuna-ai-os"
-version = "0.1.0"
-description = "Project foundation for Karuna AI OS, a production-oriented AI operating system backend."
+version = "1.0.0"
+description = "Production-oriented FastAPI backend foundation for Karuna AI OS."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { file = "LICENSE" }
@@ -20,7 +20,7 @@ keywords = [
     "backend"
 ]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
@@ -64,7 +64,7 @@ packages = [
 
 [tool.pytest.ini_options]
 minversion = "8.0"
-addopts = "-ra --strict-config --strict-markers -p no:cacheprovider"
+addopts = "-ra --strict-config --strict-markers -p no:cacheprovider --basetemp=.pytest-tmp"
 testpaths = ["tests"]
 pythonpath = ["."]
 
